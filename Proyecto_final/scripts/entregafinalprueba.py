@@ -6,10 +6,11 @@ import sqlalchemy as sa
 import logging
 from configparser import ConfigParser
 from utils import *
-
+from sqlalchemy.engine import Engine
 
 url_play = "https://api.spotify.com/v1/playlists/"
-
+config_dir = "Proyecto_final\\config\\config.ini"
+congif_section = "redshift"
 
 def get_token(): # Permite generar un token de autenticación
     clientid = '8fee91e6afc8464a8542acb7742fbab5'
@@ -42,22 +43,16 @@ def get_token(): # Permite generar un token de autenticación
 
 
 
-def create_json(url_play):
+def create_df():
+    
     token = get_token()
-    url_play = url_play
+    url_play = "https://api.spotify.com/v1/playlists/"
     headers = get_auth_header(token)
     playlist ='37i9dQZEVXbMDoHDwVN2tF'
     web= url_play + playlist
     result = r.get(web,headers=headers)
     json_result = result.json()
-    
-    return json_result
 
-json_result = create_json(url_play)
-#Creación del diccionario con la información que se va a utilizar
-
-def create_df(json_result):
-    
     try:  
         stations_data = json_result["tracks"]["items"]
         data = {"track_id":[],"track_name":[],"artist_name":[],"album_name":[],"album_release_date":[],"album_popularity":[]}
@@ -71,25 +66,28 @@ def create_df(json_result):
 
         #Armado del dataframe
         df_spotify = pd.DataFrame(data)
-        return df_spotify 
-                       
+        return df_spotify               
     except Exception as e:
         logging.error(f"Error al obtener datos de {url_play}: {e}")
         raise e
-
-  
-
-df_spotify = create_df(json_result)
-
-            # Definir engine con un valor predeterminado
+    
+df_spotify = create_df()
 config_dir = "Proyecto_final\\config\\config.ini"
-conn_string = build_conn_string(config_dir, "redshift")
+conn_string = build_conn_string(config_dir, "redshift") 
+conn, engine = connect_to_db(config_dir, "redshift")        # Definir engine con un valor predeterminado
+load_to_sql(df_spotify, "top_50_global_stg", conn, "append")          
 
-conn, engine = connect_to_db(config_dir, "redshift")
-load_to_sql(df_spotify, "top_50_global_stg", engine, "append")
+# def load_data(config_dir):
+#     df_spotify = create_df()
+#     logging.info("Conectándose a la base de datos...")
+#     conn, engine = build_conn_string (config_dir, "redshift")
+#     logging.info("Conexión a la base de datos establecida exitosamente")
+#     load_to_sql(df_spotify, "top_50_global_stg", conn, "append")
+#     conn.close()
 
 
 if __name__ == "__entregafinalprueba__":
-    create_json("https://api.spotify.com/v1/playlists/")
-
+    
+    df_spotify = create_df()
+    
    
