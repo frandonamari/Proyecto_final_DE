@@ -65,14 +65,12 @@ def connect_to_db(config_dir, config_section):
     sqlalchemy.engine.base.Engine: Un objeto de conexión a la base de datos.
     """
    
-
+   
     logging.info("Conectándose a la base de datos...")
     engine = sa.create_engine("postgresql://fran_d_donamari_coderhouse:3U3iOidaC0@data-engineer-cluster.cyhh5bfevlmn.us-east-1.redshift.amazonaws.com:5439/data-engineer-database")
     conn = engine.connect()
     logging.info("Conexión a la base de datos establecida exitosamente")
     return conn, engine
-
-    
 
 
 
@@ -89,8 +87,8 @@ def load_to_sql(df, table_name, engine, if_exists ="replace"):
     check_field (str): El nombre de la columna que se usará para controlar duplicados.
     """
     try:
-        with engine.connect() as conn:
-            logging.info(f"Cargando datos en la tabla {table_name}_stg...")
+        with engine.connect() as conn, conn.begin():
+            logging.info(f"Cargando datos en la tabla {table_name}...")
             conn.execute(f"TRUNCATE TABLE {table_name}")
             df.to_sql(
                 f"{table_name}", conn,
@@ -111,12 +109,12 @@ def load_to_sql(df, table_name, engine, if_exists ="replace"):
                         album_name = top_50_global_stg.album_name,
                         album_release_date = top_50_global_stg.album_release_date,
                         album_popularity = top_50_global_stg.album_popularity,
-                        updated_at = GETDATE(),
+                        updated_at = CURRENT_TIMESTAMP,
                         created_at = GETDATE()
                 WHEN NOT MATCHED THEN
                     INSERT (track_id, track_name, artist_name, album_name, album_release_date, album_popularity, updated_at,created_at)
                     VALUES (top_50_global_stg.track_id, top_50_global_stg.track_name, top_50_global_stg.artist_name, top_50_global_stg.album_name, top_50_global_stg.album_release_date, top_50_global_stg.album_popularity, GETDATE(), GETDATE())
-                     """)
+                """)
             logging.info("Datos cargados exitosamente")
     except Exception as e:
         logging.error(f"Error al cargar los datos en la base de datos: {e}")
