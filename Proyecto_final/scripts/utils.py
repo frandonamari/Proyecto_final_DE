@@ -118,3 +118,4 @@ def load_to_sql(df, table_name, engine, if_exists ="replace"):
             logging.info("Datos cargados exitosamente")
     except Exception as e:
         logging.error(f"Error al cargar los datos en la base de datos: {e}")
+        logging.error(f"Error al cargar los datos en la base de datos: {e}")

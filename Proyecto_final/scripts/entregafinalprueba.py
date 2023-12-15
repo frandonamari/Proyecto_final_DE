@@ -90,4 +90,3 @@ if __name__ == "__entregafinalprueba__":
     
     df_spotify = create_df()
     
-    

@@ -20,7 +20,7 @@ with DAG(
     schedule_interval= "@daily",
     default_args=default_args
 ) as dag:
-
+    
     create_df_task = PythonOperator(
         task_id="create_df",
         python_callable=create_df,
@@ -29,7 +29,3 @@ with DAG(
 
         }
     )
-
-  
-
-    
