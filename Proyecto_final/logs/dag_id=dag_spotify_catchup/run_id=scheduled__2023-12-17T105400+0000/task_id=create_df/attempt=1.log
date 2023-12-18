@@ -1,0 +1,71 @@
+[2023-12-18T00:01:13.445+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: dag_spotify_catchup.create_df scheduled__2023-12-17T10:54:00+00:00 [queued]>
+[2023-12-18T00:01:13.453+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: dag_spotify_catchup.create_df scheduled__2023-12-17T10:54:00+00:00 [queued]>
+[2023-12-18T00:01:13.454+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 4
+[2023-12-18T00:01:13.471+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): create_df> on 2023-12-17 10:54:00+00:00
+[2023-12-18T00:01:13.476+0000] {standard_task_runner.py:57} INFO - Started process 2674 to run task
+[2023-12-18T00:01:13.479+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'dag_spotify_catchup', 'create_df', 'scheduled__2023-12-17T10:54:00+00:00', '--job-id', '849', '--raw', '--subdir', 'DAGS_FOLDER/dag_spotify.py', '--cfg-path', '/tmp/tmp8irqj8_n']
+[2023-12-18T00:01:13.482+0000] {standard_task_runner.py:85} INFO - Job 849: Subtask create_df
+[2023-12-18T00:01:13.533+0000] {task_command.py:416} INFO - Running <TaskInstance: dag_spotify_catchup.create_df scheduled__2023-12-17T10:54:00+00:00 [running]> on host 2789358e74c4
+[2023-12-18T00:01:13.644+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='fran.d.donamari@gmail.com' AIRFLOW_CTX_DAG_OWNER='Frandonamari' AIRFLOW_CTX_DAG_ID='dag_spotify_catchup' AIRFLOW_CTX_TASK_ID='create_df' AIRFLOW_CTX_EXECUTION_DATE='2023-12-17T10:54:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2023-12-17T10:54:00+00:00'
+[2023-12-18T00:01:13.888+0000] {logging_mixin.py:154} INFO - {'access_token': 'BQA6MBHpQoGYqkFu6lZARmQvVpipg8I2wjvlI_6clvvjoedWiCAYOHKiW6uN6qfYN1sbZm7MW9yyjBEJ7lw8Jxy41RHI7TcCUn3nZZtE9iJf_F_-nFw', 'token_type': 'Bearer', 'expires_in': 3600}
+[2023-12-18T00:01:14.519+0000] {python.py:194} INFO - Done. Returned value was:    track_id  ... album_popularity
+0     0bYg9  ...               99
+1     06qMR  ...               89
+2     2EjXf  ...               98
+3     7vQbu  ...               93
+4     0lizg  ...               95
+5     3rUGC  ...              100
+6     1rv46  ...               87
+7     1IcR6  ...               79
+8     2uFaJ  ...               95
+9     7uoFM  ...               94
+10    3YZE5  ...               85
+11    3vkCu  ...               98
+12    4xhsW  ...               97
+13    6tjit  ...               83
+14    1Bxfu  ...               99
+15    0oPda  ...               87
+16    7fUYU  ...               83
+17    7CyPw  ...               94
+18    7xapw  ...               92
+19    5RqSs  ...               93
+20    7iQXY  ...               97
+21    56y1j  ...               88
+22    0R6Nf  ...               86
+23    2Hafq  ...               98
+24    2HRgq  ...               90
+25    6uIId  ...               95
+26    6CvTE  ...               95
+27    5mjYQ  ...               97
+28    27RYr  ...               91
+29    4kKdv  ...               90
+30    5aIVC  ...               95
+31    5XeFe  ...               95
+32    77khP  ...               91
+33    5humE  ...               67
+34    2TE4x  ...               91
+35    5PyDJ  ...               85
+36    4bw8m  ...               90
+37    2KslE  ...               98
+38    7bywj  ...               87
+39    1SV1f  ...               90
+40    1kuGV  ...               95
+41    0ZoHH  ...               75
+42    5XVdH  ...               90
+43    0mflM  ...               93
+44    7MXVk  ...               94
+45    2pXpU  ...               90
+46    7ABLb  ...               95
+47    4MjDJ  ...               96
+48    4so0W  ...               90
+49    4Yg2w  ...               88
+
+[50 rows x 6 columns]
+[2023-12-18T00:01:14.581+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=dag_spotify_catchup, task_id=create_df, execution_date=20231217T105400, start_date=20231218T000113, end_date=20231218T000114
+[2023-12-18T00:01:14.581+0000] {taskinstance.py:1705} ERROR - Error when executing enviar callback
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1702, in _run_finished_callback
+    callback(context)
+TypeError: enviar() takes 0 positional arguments but 1 was given
+[2023-12-18T00:01:14.616+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2023-12-18T00:01:14.635+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

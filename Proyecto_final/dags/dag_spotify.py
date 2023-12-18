@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import sqlalchemy as sa
 from airflow.models import DAG, Variable
+from email import message
 from airflow.operators.python_operator import PythonOperator
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 from scripts.entregafinalprueba import create_df 
@@ -16,8 +17,8 @@ def enviar(context):
         
         )        
 
-        subject=f'Reporte de Airflow{context["dag"]} {context['ds']}'
-        body_text=f'Tarea {context['task_instance_key_str']}se ejecuto correctamente'
+        subject=f'Reporte de Airflow create_df_task'
+        body_text='Tarea se ejecuto correctamente'
         message='Subject: {}\n\n{}'.format(subject,body_text)
         x.sendmail('fran.d.donamari@gmail.com','fran.d.donamri@gmail.com',message)
         print('Exito')
@@ -47,10 +48,6 @@ with DAG(
     create_df_task = PythonOperator(
         task_id="create_df",
         python_callable=create_df,
-        op_kwargs={
-            "url_play": "https://accounts.spotify.com/api/token",
-
-        },
-        on_success_callback= enviar
+        on_success_callback= enviar,     
         
-    )
+)
